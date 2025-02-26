@@ -1,3 +1,11 @@
+Possible Research/Tool topics
+Creating an interactive visualisation tool that allows users enter the websites/apps/platfirms they have visited and seeing what their data outflow looks like (what data is collected, Why it’s important,  and where it goes and who has it)
+
+
+
+
+
+
 # Digital Footprint Visualization System Using WhoTracks.me Data
 
 The WhoTracks.me dataset is an excellent foundation for your proposed interactive visualization tool. This project would transform the abstract concept of online tracking into a concrete, personally relevant visualization that helps users understand exactly what happens when they visit websites and use digital services.
