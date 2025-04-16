@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker Prediction Dashboard</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        #input-form { margin-bottom: 20px; }
+        #visualization { margin-top: 30px; }
+        .bar { fill: steelblue; }
+        .bar:hover { fill: orange; }
+    </style>
+</head>
+<body>
+    <h1>Website Tracker Predictor</h1>
+    
+    <!-- Input Form -->
+    <div id="input-form">
+        <h2>Enter Website Features</h2>
+        <form id="prediction-form">
+            <label>popularity: <input type="number" step="0.00000000000000001" name="popularity" value="1" required></label><br>
+            <label>cookies: <input type="number" step="0.00000000000000001" name="cookies" value="0.1300222780357925" required></label><br>
+            <label>bad_qs: <input type="number" step="0.00000000000000001" name="bad_qs" value="0.0039802713064476" required></label><br>
+            <label>tracked: <input type="number" step="0.00000000000000001" name="tracked" value="0.1332821222864023" required></label><br>
+            <label>https: <input type="number" step="0.00000000000000001" name="https" value="0.9991950870205014" required></label><br>
+            <label>requests: <input type="number" step="0.00000000000000001" name="requests" value="51.7179987827465" required></label><br>
+            <label>requests_tracking: <input type="number" step="0.00000000000000001" name="requests_tracking" value="0.8509754433050237" required></label><br>
+            <label>content_length: <input type="number" step="0.00000000000000001" name="content_length" value="814724.21769004" required></label><br>
+            <label>requests_failed: <input type="number" step="0.00000000000000001" name="requests_failed" value="6.171709273273411" required></label><br>
+            <label>has_blocking: <input type="number" step="0.00000000000000001" name="has_blocking" value="0" required></label><br>
+            <label>script: <input type="number" step="0.00000000000000001" name="script" value="0.914105047992926" required></label><br>
+            <label>iframe: <input type="number" step="0.00000000000000001" name="iframe" value="0.2032333501211511" required></label><br>
+            <label>beacon: <input type="number" step="0.00000000000000001" name="beacon" value="0.0117630653789808" required></label><br>
+            <label>image: <input type="number" step="0.00000000000000001" name="image" value="0.9705176116239508" required></label><br>
+            <label>stylesheet: <input type="number" step="0.00000000000000001" name="stylesheet" value="0.5671184886370534" required></label><br>
+            <label>font: <input type="number" step="0.00000000000000001" name="font" value="0.6809088060580508" required></label><br>
+            <label>xhr: <input type="number" step="0.00000000000000001" name="xhr" value="0.4942570898454482" required></label><br>
+            <label>plugin: <input type="number" step="0.00000000000000001" name="plugin" value="0" required></label><br>
+            <label>media: <input type="number" step="0.00000000000000001" name="media" value="0.0691578804040231" required></label><br>
+            <label>referer_leaked: <input type="number" step="0.00000000000000001" name="referer_leaked" value="0.0497504794371104" required></label><br>
+            <label>referer_leaked_header: <input type="number" step="0.00000000000000001" name="referer_leaked_header" value="0.0135572018918284" required></label><br>
+            <label>referer_leaked_url: <input type="number" step="0.00000000000000001" name="referer_leaked_url" value="0.0084523655238373" required></label><br>
+            <label>cookie_samesite_none: <input type="number" step="0.00000000000000001" name="cookie_samesite_none" value="0.1121110161441936" required></label><br>
+            <label>t_active: <input type="number" step="0.00000000000000001" name="t_active" value="52908.67689547861" required></label><br>
+            <label>hosts: <input type="number" step="0.00000000000000001" name="hosts" value="4.473810512017508" required></label><br>
+            <label>trackers: <input type="number" step="0.00000000000000001" name="trackers" value="4.05492757997864" required></label><br>
+            <label>companies: <input type="number" step="0.00000000000000001" name="companies" value="1.826249776481416" required></label><br>
+            <label>de: <input type="number" step="1" name="de" value="1" required></label><br>
+            <label>eu: <input type="number" step="1" name="eu" value="0" required></label><br>
+            <label>fr: <input type="number" step="1" name="fr" value="0" required></label><br>
+            <label>global: <input type="number" step="1" name="global" value="0" required></label><br>
+            <label>us: <input type="number" step="1" name="us" value="0" required></label><br>
+            <label>category_Adult: <input type="number" step="1" name="category_Adult" value="0" required></label><br>
+            <label>category_Adult : <input type="number" step="1" name="category_Adult2" value="0" required></label><br>
+            <label>category_Banking: <input type="number" step="1" name="category_Banking" value="0" required></label><br>
+            <label>category_Business: <input type="number" step="1" name="category_Business" value="0" required></label><br>
+            <label>category_E-Commerce: <input type="number" step="1" name="category_E-Commerce" value="0" required></label><br>
+            <label>category_E-Commerce: <input type="number" step="1" name="category_E-Commerce2" value="0" required></label><br>
+            <label>category_E-commerce: <input type="number" step="1" name="category_E-Commerce3" value="0" required></label><br>
+            <label>category_Entertainment: <input type="number" step="1" name="category_Entertainment" value="0" required></label><br>
+            <label>category_Entertainment: <input type="number" step="1" name="category_Entertainment2" value="0" required></label><br>
+            <label>category_Government: <input type="number" step="1" name="category_Government" value="0" required></label><br>
+            <label>category_Health: <input type="number" step="1" name="category_Health" value="0" required></label><br>
+            <label>category_News and Portals: <input type="number" step="1" name="category_News and Portals" value="0" required></label><br>
+            <label>category_Political: <input type="number" step="1" name="category_Political" value="0" required></label><br>
+            <label>category_Recreation: <input type="number" step="1" name="category_Recreation" value="0" required></label><br>
+            <label>category_Reference: <input type="number" step="1" name="category_Reference" value="1" required></label><br>
+            <label>category_Uncategorized: <input type="number" step="1" name="category_Uncategorized" value="0" required></label><br>
+            
+            
+
+            <button type="submit">Predict Trackers</button>
+        </form>
+    </div>
+
+    <!-- Prediction Results -->
+    <div id="prediction-result">
+        <h2>Detected Trackers</h2>
+        <ul id="tracker-list"></ul>
+    </div>
+
+    <!-- D3 Visualization -->
+    <div id="visualization">
+        <h2>Tracker Statistics</h2>
+        <svg id="chart" width="600" height="400"></svg>
+    </div>
+    <div id="barchart">
+        <h2>Tracker-Reach</h2>
+        <svg id="chart" width="600" height="400"></svg>
+    </div>
+    <div id="stackbar">
+        <h2>Sites Using Trackers by Country</h2>
+        <svg id="chart" width="600" height="400"></svg>
+    </div>
+
+    <script>
+        // Submit form to API
+        document.getElementById('prediction-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const features = [
+                parseFloat(formData.get('popularity')),
+                parseFloat(formData.get('cookies')),
+                parseFloat(formData.get('bad_qs')),
+                parseFloat(formData.get('tracked')),
+                parseFloat(formData.get('https')),
+                parseFloat(formData.get('requests')),
+                parseFloat(formData.get('requests_tracking')),
+                parseFloat(formData.get('content_length')),
+                parseFloat(formData.get('requests_failed')),
+                parseFloat(formData.get('has_blocking')),
+                parseFloat(formData.get('script')),
+                parseFloat(formData.get('iframe')),
+                parseFloat(formData.get('beacon')),
+                parseFloat(formData.get('image')),
+                parseFloat(formData.get('stylesheet')),
+                parseFloat(formData.get('font')),
+                parseFloat(formData.get('xhr')),
+                parseFloat(formData.get('plugin')),
+                parseFloat(formData.get('media')),
+                parseFloat(formData.get('referer_leaked')),
+                parseFloat(formData.get('referer_leaked_header')),
+                parseFloat(formData.get('referer_leaked_url')),
+                parseFloat(formData.get('cookie_samesite_none')),
+                parseFloat(formData.get('t_active')),
+                parseFloat(formData.get('hosts')),
+                parseFloat(formData.get('trackers')),
+                parseFloat(formData.get('companies')),
+                parseFloat(formData.get('de')),
+                parseFloat(formData.get('eu')),
+                parseFloat(formData.get('fr')),
+                parseFloat(formData.get('global')),
+                parseFloat(formData.get('us')),
+                parseFloat(formData.get('category_Adult')),
+                parseFloat(formData.get('category_Adult2')),
+                parseFloat(formData.get('category_Banking')),
+                parseFloat(formData.get('category_Business')),
+                parseFloat(formData.get('category_E-Commerce')),
+                parseFloat(formData.get('category_E-Commerce2')),
+                parseFloat(formData.get('category_E-Commerce3')),
+                parseFloat(formData.get('category_Entertainment')),
+                parseFloat(formData.get('category_Entertainment2')),
+                parseFloat(formData.get('category_Government')),
+                parseFloat(formData.get('category_Health')),
+                parseFloat(formData.get('category_News and Portals')),
+                parseFloat(formData.get('category_Political')),
+                parseFloat(formData.get('category_Recreation')),
+                parseFloat(formData.get('category_Reference')),
+                parseFloat(formData.get('category_Uncategorized'))
+            ];
+
+
+            try {
+                // Call Flask API
+                const response = await fetch('http://localhost:5000/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ features: [features] })  // Wrap in array for batch
+                });
+
+                const data = await response.json();
+                const trackers = data.trackers;  // Get first prediction
+                
+                // Display trackers
+                const trackerList = document.getElementById('tracker-list');
+                trackerList.innerHTML = trackers.map(t => `<li>${t}</li>`).join('');
+                console.log(trackers)
+                // Load and visualize CSV data
+                loadTrackerData(trackers);
+            } catch (error) {
+                console.error("API Error:", error);
+            }
+
+            
+            // Load CSV and visualize with D3
+        async function loadTrackerData(targetTrackers) {
+
+            const container = d3.select("#barchart");
+            container.selectAll("*").remove();
+            const container2 = d3.select("#stackbar");
+            container2.selectAll("*").remove();
+
+
+            d3.csv("sites_trackers_2025_01.csv").then(function(data) {
+            // Convert numeric fields
+            data.forEach(function(d) {
+                d.popularity = +d.popularity;
+                d.cookies = +d.cookies;
+                d.reach = +d.reach;
+            });
+            
+            // Filter to only include target trackers
+            const filteredData = data.filter(d => targetTrackers.includes(d.tracker));
+            
+            // Now visualize the filtered data
+            visualizeData(filteredData);
+
+            // Filter to only include target trackers
+
+   
+            
+            // Transform data for stacked chart
+            const processedData = processDataForStacking(filteredData);
+            
+            // Create the stacked chart
+            createStackedChart(processedData);
+            }).catch(function(error) {
+            console.error("Error loading CSV:", error);
+
+
+            });
+
+        function visualizeData(filteredData) {
+            console.log("Filtered data:", filteredData);
+            
+            // Example: Create a simple bar chart of reach by tracker
+            const svg = d3.select("#barchart").append("svg")
+                .attr("width", 1000)
+                .attr("height", 800);
+            
+            // Set up scales
+            const x = d3.scaleBand()
+                .domain(filteredData.map(d => d.tracker))
+                .range([50, 550])
+                .padding(0.2);
+                
+            const y = d3.scaleLinear()
+                .domain([0, d3.max(filteredData, d => d.reach)])
+                .range([350, 50]);
+            
+            // Draw bars
+            svg.selectAll("rect")
+                .data(filteredData)
+                .enter()
+                .append("rect")
+                .attr("x", d => x(d.tracker))
+                .attr("y", d => y(d.reach))
+                .attr("width", x.bandwidth())
+                .attr("height", d => 350 - y(d.reach))
+                .attr("fill", "steelblue");
+            
+            // Add axes
+            svg.append("g")
+                .attr("transform", "translate(0,350)")
+                .call(d3.axisBottom(x))
+                .selectAll("text")
+                .attr("transform", "rotate(45)")
+                .attr("x", 10)  // Adjust these values to fine-tune label position
+                .attr("y", 10)
+                .style("text-anchor", "start");
+                
+            svg.append("g")
+                .attr("transform", "translate(50,0)")
+                .call(d3.axisLeft(y));
+
+
+        };
+
+
+        function processDataForStacking(data) {
+            // Group by country and count sites per tracker
+            const nestedData = d3.group(data, d => d.country);
+            
+            // Create an array of objects for each country
+            const result = Array.from(nestedData, ([country, sites]) => {
+                const trackerCounts = {country};
+                
+                // Initialize counts for each tracker
+                targetTrackers.forEach(tracker => {
+                    trackerCounts[tracker] = 0;
+                });
+                
+                // Count unique sites per tracker
+                const sitesByTracker = d3.group(sites, d => d.tracker);
+                sitesByTracker.forEach((sites, tracker) => {
+                    trackerCounts[tracker] = new Set(sites.map(d => d.site)).size;
+                });
+                
+                return trackerCounts;
+            });
+            
+            return result;
+        };
+
+        function createStackedChart(data) {
+            // Set up dimensions and margins
+            const margin = {top: 20, right: 100, bottom: 70, left: 60};
+            const width = 1200 - margin.left - margin.right;
+            const height = 900 - margin.top - margin.bottom;
+            
+            // Create SVG
+            const svg = d3.select("#stackbar").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+            
+            // Define the stack
+            const stack = d3.stack()
+                .keys(targetTrackers)
+                .order(d3.stackOrderNone)
+                .offset(d3.stackOffsetNone);
+            
+            const stackedData = stack(data);
+            
+            // Set up scales
+            const x = d3.scaleBand()
+                .domain(data.map(d => d.country))
+                .range([0, width])
+                .padding(0.2);
+                
+            const y = d3.scaleLinear()
+                .domain([0, d3.max(stackedData, layer => d3.max(layer, sequence => sequence[1]))])
+                .range([height, 0]);
+            
+            // Color scale for trackers
+            const color = d3.scaleOrdinal()
+                .domain(targetTrackers)
+                .range(d3.schemeCategory10);
+            
+            // Create the stacked bars
+            svg.append("g")
+                .selectAll("g")
+                .data(stackedData)
+                .enter().append("g")
+                .attr("fill", d => color(d.key))
+                .selectAll("rect")
+                .data(d => d)
+                .enter().append("rect")
+                .attr("x", d => x(d.data.country))
+                .attr("y", d => y(d[1]))
+                .attr("height", d => y(d[0]) - y(d[1]))
+                .attr("width", x.bandwidth());
+            
+            // Add x-axis with rotated labels
+            svg.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x))
+                .selectAll("text")
+                .attr("transform", "rotate(45)")
+                .attr("x", 10)
+                .attr("y", 10)
+                .style("text-anchor", "start");
+            
+            // Add y-axis
+            svg.append("g")
+                .call(d3.axisLeft(y));
+            
+            // Add axis labels
+            svg.append("text")
+                .attr("transform", `translate(${width/2},${height + margin.top + 40})`)
+                .style("text-anchor", "middle")
+                .text("Country");
+            
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 0 - margin.left)
+                .attr("x", 0 - (height / 2))
+                .attr("dy", "1em")
+                .style("text-anchor", "middle")
+                .text("Number of Sites");
+            
+            // Add legend
+            const legend = svg.append("g")
+                .attr("transform", `translate(${width},20)`);
+                
+            targetTrackers.forEach((tracker, i) => {
+                legend.append("rect")
+                    .attr("x", 0)
+                    .attr("y", i * 20)
+                    .attr("width", 15)
+                    .attr("height", 15)
+                    .attr("fill", color(tracker));
+                    
+                legend.append("text")
+                    .attr("x", 20)
+                    .attr("y", i * 20 + 12)
+                    .text(`${tracker}`)
+                    .style("font-size", "12px");
+            });
+
+            svg.append("text")
+                .attr("x", width / 2)
+                .attr("y", 0)
+                .attr("text-anchor", "middle")
+                .style("font-size", "16px")
+                .style("font-weight", "bold")
+                .text("Sites Using Trackers by Country");
+        };
+
+        
+
+
+
+
+
+
+
+
+        }
+        });
+
+        
+    </script>
+</body>
+</html>
