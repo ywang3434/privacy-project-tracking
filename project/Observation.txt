@@ -1,0 +1,54 @@
+Methodology & Results
+We developed a Random Forest model using WhoTracksMe data to predict website trackers based on various features including popularity, bad_qs, and other website characteristics. During model development, we implemented several optimization strategies:
+
+Feature Selection:
+
+Employed feature importance analysis to effectively reduce dimensionality
+
+Maintained model performance while significantly improving training efficiency
+
+Without dimensionality reduction, grid search operations would require hundreds of hours
+
+Hyperparameter Tuning:
+
+Conducted comprehensive grid search optimization
+
+Improved micro F1-score from 0.89 to 0.90
+
+Identified optimal parameter combinations for prediction accuracy
+
+Data Analysis:
+
+Verified that simply increasing data volume without quality improvement didn't enhance performance
+
+Regularly validated model against WhoTracksMe's updated datasets
+
+Maintained consistent evaluation metrics across data refreshes
+
+Limitations & Future Work
+Our analysis revealed several important limitations:
+
+Novel Tracker Prediction:
+The model cannot effectively predict:
+
+Emergence of new tracker types
+
+Emerging tracking trends in the dataset
+
+Temporal Pattern Recognition:
+The current architecture lacks capability to:
+
+Identify temporal patterns in tracker adoption
+
+Detect evolving tracking strategies
+
+Recommended Improvements:
+
+Implementation of RNN or other sequential models for temporal analysis
+
+Development of hybrid architectures combining traditional ML with deep learning
+
+Enhanced feature engineering to capture trend-related patterns
+
+Conclusion
+While our Random Forest implementation achieved satisfactory performance (F1=0.90) for known tracker prediction, the study highlights the need for more sophisticated approaches to address the dynamic nature of web tracking technologies. Future work should focus on temporal modeling architectures to better capture evolving tracking behaviors.
